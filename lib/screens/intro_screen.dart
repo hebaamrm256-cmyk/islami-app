@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'sebha_screen.dart';
 import '../data/intro_data.dart';
+import 'sebha_screen.dart';
+
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
+
   @override
   State<IntroScreen> createState() => _IntroScreenState();
 }
+
 class _IntroScreenState extends State<IntroScreen> {
   final PageController controller = PageController();
+
   int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +34,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 },
                 itemBuilder: (context, index) {
                   final item = introPages[index];
+
                   return Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -34,12 +42,9 @@ class _IntroScreenState extends State<IntroScreen> {
                         Expanded(
                           child: Image.asset(
                             item.image,
-                              fit: BoxFit.cover
-
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 20),
-
                         const SizedBox(height: 20),
                       ],
                     ),
@@ -47,6 +52,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 },
               ),
             ),
+
             SmoothPageIndicator(
               controller: controller,
               count: introPages.length,
@@ -55,7 +61,9 @@ class _IntroScreenState extends State<IntroScreen> {
                 dotColor: Colors.grey,
               ),
             ),
+
             const SizedBox(height: 20),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -63,10 +71,12 @@ class _IntroScreenState extends State<IntroScreen> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      controller.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
+                      if (currentPage > 0) {
+                        controller.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
                     },
                     child: const Text(
                       'Back',
@@ -75,12 +85,20 @@ class _IntroScreenState extends State<IntroScreen> {
                       ),
                     ),
                   ),
+
                   TextButton(
                     onPressed: () {
                       if (currentPage < introPages.length - 1) {
                         controller.nextPage(
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
+                        );
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SebhaScreen(),
+                          ),
                         );
                       }
                     },
@@ -92,12 +110,11 @@ class _IntroScreenState extends State<IntroScreen> {
                         color: Color(0xffE2BE7F),
                       ),
                     ),
-
-                    ),
-
+                  ),
                 ],
               ),
             ),
+
             const SizedBox(height: 20),
           ],
         ),
